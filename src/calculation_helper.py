@@ -87,7 +87,7 @@ def ricci_curvature_weight_generator(graph, alpha):
     print(" ")
     print("Ricci curvature calculation started.")
     print(" ")
-    graph.remove_edges_from(graph.selfloop_edges())
+    graph.remove_edges_from(nx.selfloop_edges(graph))
     orc = OllivierRicci(graph, alpha=0.5)
     G = orc.compute_ricci_curvature()
     print("Curvature calculated")
