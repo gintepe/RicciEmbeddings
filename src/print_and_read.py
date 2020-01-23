@@ -2,6 +2,7 @@ import json
 import pandas as pd
 import networkx as nx
 from texttable import Texttable
+import pickle
 
 def graph_reader(input_path):
     """
@@ -84,3 +85,8 @@ def log_updater(log, repetition, average_loss, optimization_time, modularity_sco
     log["times"] = log["times"] + [[int(index), float(optimization_time)]]
     log["cluster_quality"] = log["cluster_quality"] + [[int(index), float(modularity_score)]]
     return log
+
+def ricci_weights_reader(p):
+    with open(p, 'rb') as handle:
+        weights = pickle.loads(handle.read())
+    return weights

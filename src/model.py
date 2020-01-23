@@ -8,7 +8,7 @@ import networkx as nx
 from tqdm import tqdm
 import tensorflow as tf
 from calculation_helper import overlap_generator
-from calculation_helper import ricci_curvature_weight_generator
+from calculation_helper import ricci_curvature_weight_generator, ricci_curvature_weight_generator_precomputed
 from layers import DeepWalker, Clustering, Regularization
 from calculation_helper import neural_modularity_calculator, classical_modularity_calculator
 from calculation_helper import gamma_incrementer, RandomWalker, SecondOrderRandomWalker
@@ -16,6 +16,7 @@ from calculation_helper import index_generation, batch_input_generator, batch_la
 from print_and_read import json_dumper, log_setup
 from print_and_read import initiate_dump_gemsec, initiate_dump_dw
 from print_and_read import tab_printer, epoch_printer, log_updater
+from print_and_read import ricci_weights_reader
 
 class Model(object):
     """
@@ -331,7 +332,11 @@ class DeepWalkWithRicci(GEMSECWithRegularization):
 
             self.init = tf.global_variables_initializer()
 
-        self.weights = ricci_curvature_weight_generator(self.graph, 3)
+        if self.args.ricci_weights == "Compute":
+            self.weights = ricci_curvature_weight_generator(self.graph, 4)
+        else:
+            # self.weights = ricci_weights_reader(self.args.ricci_weights)
+            self.weights = ricci_curvature_weight_generator_precomputed(self.graph, 4, ricci_weights_reader(self.args.ricci_weights))
 
     def feed_dict_generator(self, a_random_walk, step, gamma):
         """

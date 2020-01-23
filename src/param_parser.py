@@ -134,4 +134,9 @@ def parameter_parser():
                         default=10**-8,
 	                help="Uniform noise max and min on the feature vector distance.")
 
+    parser.add_argument("--ricci-weights",
+                        nargs="?",
+                        default="Compute",
+	                help="Path to read the ricci curvature weights from")
+    
     return parser.parse_args()
