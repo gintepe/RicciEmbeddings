@@ -2,7 +2,7 @@
 
 from param_parser import parameter_parser
 from print_and_read import graph_reader
-from model import GEMSECWithRegularization, GEMSEC
+from model import GEMSECWithRegularization, GEMSEC, GEMSECWithRicci
 from model import DeepWalkWithRegularization, DeepWalk, DeepWalkWithRicci
 
 def create_and_run_model(args):
@@ -18,9 +18,12 @@ def create_and_run_model(args):
         model = DeepWalkWithRegularization(args, graph)
     elif args.model == "Ricci":
         model = DeepWalkWithRicci(args, graph)
+    elif args.model == "GEMSECRicci":
+        model = GEMSECWithRicci(args, graph)
     else:
         model = DeepWalk(args, graph)
     model.train()
+    return model.modularity_score
 
 if __name__ == "__main__":
     args = parameter_parser()
