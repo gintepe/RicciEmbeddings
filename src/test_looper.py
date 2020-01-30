@@ -16,12 +16,14 @@ if __name__ == "__main__":
     filename = args.input.split('/')[-1][:-4]
     with open("./res/{}{}.txt".format(filename, time.time()), "w") as file:
         for m in models:
+            print('\n{}\n'.format(m))
             args.model = m
             modularities = []
             for i in range(10):
                 print('trial {}'.format(i + 1))
-                mod = create_and_run_model(args)
+                mod = create_and_run_model(args) 
                 modularities.append(mod)
+            file.write('\nModel: {} \n'.format(m))
             file.write('{}\n'.format(get_report(np.asarray(modularities))))
             file.write(str(modularities))
 
