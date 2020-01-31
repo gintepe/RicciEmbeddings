@@ -11,16 +11,22 @@ def create_and_run_model(args):
     """
     graph = graph_reader(args.input)
     if args.model == "GEMSECWithRegularization":
+        print("GEMSECWithRegularization")
         model = GEMSECWithRegularization(args, graph)
     elif args.model == "GEMSEC":
+        print("GEMSEC")
         model = GEMSEC(args, graph)
     elif args.model == "DeepWalkWithRegularization":
+        print("DeepWalkWithRegularization")
         model = DeepWalkWithRegularization(args, graph)
     elif args.model == "Ricci":
+        print("Ricci")
         model = DeepWalkWithRicci(args, graph)
     elif args.model == "GEMSECRicci":
+        print("GEMSECRicci")
         model = GEMSECWithRicci(args, graph)
     else:
+        print('DeepWalk')
         model = DeepWalk(args, graph)
     model.train()
     return model.modularity_score

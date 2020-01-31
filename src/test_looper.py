@@ -19,7 +19,7 @@ if __name__ == "__main__":
             print('\n{}\n'.format(m))
             args.model = m
             modularities = []
-            for i in range(10):
+            for i in range(1):
                 print('trial {}'.format(i + 1))
                 mod = create_and_run_model(args) 
                 modularities.append(mod)
