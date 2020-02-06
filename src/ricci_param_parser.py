@@ -41,6 +41,11 @@ def parameter_parser():
     #                     nargs="?",
     #                     default="GEMSECWithRegularization",
 	#                 help="The model type.")
+    
+    parser.add_argument("--cluster-number",
+                        type=int,
+                        default=20,
+	                help="Number of clusters. Default is 20.")
 
     parser.add_argument("--t-alpha",
                         type=float,
