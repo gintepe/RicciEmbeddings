@@ -1,0 +1,228 @@
+
+ Model: DeepWalk
+
+
+learning rate: 0.001
+average accuracy 0.6867158591747284
+standard deviation 0.000246320162442295average modularity 0.6867158591747284
+standard deviation 0.000246320162442295
+
+
+learning rate: 0.01
+average accuracy 0.6608856022357941
+standard deviation 0.0003007854738116933average modularity 0.6608856022357941
+standard deviation 0.0003007854738116933
+
+
+learning rate: 0.05
+average accuracy 0.7129151284694671
+standard deviation 0.0007728650741295341average modularity 0.7129151284694671
+standard deviation 0.0007728650741295341
+
+
+learning rate: 0.1
+average accuracy 0.7343173503875733
+standard deviation 0.0008905106548445475average modularity 0.7343173503875733
+standard deviation 0.0008905106548445475
+
+
+learning rate: 0.2
+average accuracy 0.7531365334987641
+standard deviation 0.0006929374329886072average modularity 0.7531365334987641
+standard deviation 0.0006929374329886072
+
+
+learning rate: 0.5
+average accuracy 0.7498154997825622
+standard deviation 0.0008817961983390887average modularity 0.7498154997825622
+standard deviation 0.0008817961983390887
+
+ Model: DeepWalkWithRegularization
+
+
+learning rate: 0.001
+average accuracy 0.670110696554184
+standard deviation 0.000479840694437037average modularity 0.670110696554184
+standard deviation 0.000479840694437037
+
+
+learning rate: 0.01
+average accuracy 0.6619926214218139
+standard deviation 0.0012232953455372808average modularity 0.6619926214218139
+standard deviation 0.0012232953455372808
+
+
+learning rate: 0.05
+average accuracy 0.6985239863395691
+standard deviation 0.0015224461136958212average modularity 0.6985239863395691
+standard deviation 0.0015224461136958212
+
+
+learning rate: 0.1
+average accuracy 0.7210332095623017
+standard deviation 0.0008747154225506292average modularity 0.7210332095623017
+standard deviation 0.0008747154225506292
+
+
+learning rate: 0.2
+average accuracy 0.7424354255199432
+standard deviation 0.00033986495621309845average modularity 0.7424354255199432
+standard deviation 0.00033986495621309845
+
+
+learning rate: 0.5
+average accuracy 0.7538745403289795
+standard deviation 0.0004276904158487582average modularity 0.7538745403289795
+standard deviation 0.0004276904158487582
+
+ Model: Ricci
+
+
+learning rate: 0.001
+average accuracy 0.6656826555728912
+standard deviation 0.00044716125600036344average modularity 0.6656826555728912
+standard deviation 0.00044716125600036344
+
+
+learning rate: 0.01
+average accuracy 0.6734317362308502
+standard deviation 0.0003410901573659331average modularity 0.6734317362308502
+standard deviation 0.0003410901573659331
+
+
+learning rate: 0.05
+average accuracy 0.7121771156787873
+standard deviation 0.0008006427753948131average modularity 0.7121771156787873
+standard deviation 0.0008006427753948131
+
+
+learning rate: 0.1
+average accuracy 0.730996310710907
+standard deviation 0.000891735877991806average modularity 0.730996310710907
+standard deviation 0.000891735877991806
+
+
+learning rate: 0.2
+average accuracy 0.7361623644828796
+standard deviation 0.0006052479367248508average modularity 0.7361623644828796
+standard deviation 0.0006052479367248508
+
+
+learning rate: 0.5
+average accuracy 0.7616236209869385
+standard deviation 0.0009754770258638245average modularity 0.7616236209869385
+standard deviation 0.0009754770258638245
+
+ Model: GEMSECRicci
+
+
+learning rate: 0.001
+average accuracy 0.6808118045330047
+standard deviation 0.0008721289864908855average modularity 0.6808118045330047
+standard deviation 0.0008721289864908855
+
+
+learning rate: 0.01
+average accuracy 0.684132844209671
+standard deviation 0.0005642625345432251average modularity 0.684132844209671
+standard deviation 0.0005642625345432251
+
+
+learning rate: 0.05
+average accuracy 0.7239852368831634
+standard deviation 0.00026088956894415816average modularity 0.7239852368831634
+standard deviation 0.00026088956894415816
+
+
+learning rate: 0.1
+average accuracy 0.7365313649177552
+standard deviation 0.0010163264426792293average modularity 0.7365313649177552
+standard deviation 0.0010163264426792293
+
+
+learning rate: 0.2
+average accuracy 0.7505535006523132
+standard deviation 0.0003981429605231312average modularity 0.7505535006523132
+standard deviation 0.0003981429605231312
+
+
+learning rate: 0.5
+average accuracy 0.7538745403289795
+standard deviation 0.0006782314692678426average modularity 0.7538745403289795
+standard deviation 0.0006782314692678426
+
+ Model: GEMSEC
+
+
+learning rate: 0.001
+average accuracy 0.678228783607483
+standard deviation 0.0017586902724060847average modularity 0.678228783607483
+standard deviation 0.0017586902724060847
+
+
+learning rate: 0.01
+average accuracy 0.6892988920211792
+standard deviation 0.0005413870015382827average modularity 0.6892988920211792
+standard deviation 0.0005413870015382827
+
+
+learning rate: 0.05
+average accuracy 0.7191881775856018
+standard deviation 0.0009598182716091232average modularity 0.7191881775856018
+standard deviation 0.0009598182716091232
+
+
+learning rate: 0.1
+average accuracy 0.7409594118595123
+standard deviation 0.00048147498219780255average modularity 0.7409594118595123
+standard deviation 0.00048147498219780255
+
+
+learning rate: 0.2
+average accuracy 0.7535055339336395
+standard deviation 0.0007456326339894658average modularity 0.7535055339336395
+standard deviation 0.0007456326339894658
+
+
+learning rate: 0.5
+average accuracy 0.7590405881404877
+standard deviation 0.0009505595525215327average modularity 0.7590405881404877
+standard deviation 0.0009505595525215327
+
+ Model: GEMSECWithRegularization
+
+
+learning rate: 0.001
+average accuracy 0.6822878241539001
+standard deviation 0.00034435765516448673average modularity 0.6822878241539001
+standard deviation 0.00034435765516448673
+
+
+learning rate: 0.01
+average accuracy 0.6896678924560546
+standard deviation 0.0010142831430917456average modularity 0.6896678924560546
+standard deviation 0.0010142831430917456
+
+
+learning rate: 0.05
+average accuracy 0.7136531352996827
+standard deviation 0.0008039112453430164average modularity 0.7136531352996827
+standard deviation 0.0008039112453430164
+
+
+learning rate: 0.1
+average accuracy 0.7254612624645234
+standard deviation 0.0011878920824358729average modularity 0.7254612624645234
+standard deviation 0.0011878920824358729
+
+
+learning rate: 0.2
+average accuracy 0.753505539894104
+standard deviation 0.00018463812950798793average modularity 0.753505539894104
+standard deviation 0.00018463812950798793
+
+
+learning rate: 0.5
+average accuracy 0.7756457567214966
+standard deviation 0.0005413869751451728average modularity 0.7756457567214966
+standard deviation 0.0005413869751451728

@@ -138,5 +138,10 @@ def parameter_parser():
                         nargs="?",
                         default="Compute",
 	                help="Path to read the ricci curvature weights from")
+
+    parser.add_argument("--ricci-alpha",
+                        type=float,
+                        default=4.0,
+	                help="Value used in the Ricci curvature transformation. Default is 4.0.")
     
     return parser.parse_args()

@@ -8,7 +8,7 @@ import networkx as nx
 from tqdm import tqdm
 import tensorflow as tf
 from calculation_helper import overlap_generator
-from calculation_helper import ricci_curvature_weight_generator, ricci_curvature_weight_generator_precomputed
+from calculation_helper import ricci_curvature_weight_generator, ricci_curvature_weight_generator_precomputed, ricci_curvature_weight_generator_raw
 from layers import DeepWalker, Clustering, Regularization
 from calculation_helper import neural_modularity_calculator, classical_modularity_calculator
 from calculation_helper import gamma_incrementer, RandomWalker, SecondOrderRandomWalker
@@ -333,10 +333,10 @@ class DeepWalkWithRicci(GEMSECWithRegularization):
             self.init = tf.global_variables_initializer()
 
         if self.args.ricci_weights == "Compute":
-            self.weights = ricci_curvature_weight_generator(self.graph, 4)
+            self.weights = ricci_curvature_weight_generator(self.graph, self.args.ricci_alpha)
         else:
-            # self.weights = ricci_weights_reader(self.args.ricci_weights)
-            self.weights = ricci_curvature_weight_generator_precomputed(self.graph, 4, ricci_weights_reader(self.args.ricci_weights))
+            self.weights = ricci_curvature_weight_generator_precomputed(self.graph, self.args.ricci_alpha, ricci_weights_reader(self.args.ricci_weights))
+            # self.weights = ricci_curvature_weight_generator_raw(self.graph, ricci_weights_reader(self.args.ricci_weights))
 
     def feed_dict_generator(self, a_random_walk, step, gamma):
         """
@@ -400,10 +400,10 @@ class GEMSECWithRicci(GEMSECWithRegularization):
             self.init = tf.global_variables_initializer()
 
         if self.args.ricci_weights == "Compute":
-            self.weights = ricci_curvature_weight_generator(self.graph, 4)
+            self.weights = ricci_curvature_weight_generator(self.graph, self.args.ricci_alpha)
         else:
-            # self.weights = ricci_weights_reader(self.args.ricci_weights)
-            self.weights = ricci_curvature_weight_generator_precomputed(self.graph, 4, ricci_weights_reader(self.args.ricci_weights))
+            self.weights = ricci_curvature_weight_generator_precomputed(self.graph, self.args.ricci_alpha, ricci_weights_reader(self.args.ricci_weights))
+            # self.weights = ricci_curvature_weight_generator_raw(self.graph, ricci_weights_reader(self.args.ricci_weights))
 
 
     def feed_dict_generator(self, a_random_walk, step, gamma):

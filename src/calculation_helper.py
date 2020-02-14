@@ -126,6 +126,26 @@ def ricci_curvature_weight_generator_precomputed(graph, alpha, curvatures):
     print(" ")
     return weights
 
+def replace_if_self(e, curvatures):
+    if e[0] == e[1]:
+        return 0 
+    else:
+        return curvatures[e]
+
+def ricci_curvature_weight_generator_raw(graph, curvatures):
+    """
+    Function to retrieve the Ricci curvature for all of the edges.
+    """
+    print(" ")
+    print("Ricci curvature calculation started.")
+    print(" ")
+    edges = nx.edges(graph)
+    weights = {e: replace_if_self(e, curvatures) for e in tqdm(edges)}
+    weights_prime = {(e[1], e[0]): value for e, value in weights.items()}
+    weights.update(weights_prime)
+    print(" ")
+    return weights
+
 def index_generation(weights, a_walk):
     """
     Function to generate overlaps and indices.

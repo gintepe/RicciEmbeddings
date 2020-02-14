@@ -14,22 +14,22 @@ def get_curvatures_as_dict(graph):
     return curvatures
 
 def precompute_cora():
-    G = cora_loader()
+    G, oh = cora_loader()
     print(len(G.nodes()))
     print(len(G.edges()))
-    # target_name = 'cora/cora_curvatures.txt'
-    # curvatures = get_curvatures_as_dict(G)
-    # with open(target_name, 'wb') as handle:
-    #     pickle.dump(curvatures, handle)
+    target_name = 'cora/cora_curvatures.txt'
+    curvatures = get_curvatures_as_dict(G)
+    with open(target_name, 'wb') as handle:
+        pickle.dump(curvatures, handle)
 
 if __name__ == "__main__":
-    # f = "data/" + sys.argv[1] + "_edges.csv"
-    # target_name = "data/ricci/" + sys.argv[1] + "_curvatures.txt"
-    # G = graph_reader(f)
-    # # weights = ricci_curvature_weight_generator(G, 4)
-    # # with open(target_name, 'wb') as handle:
-    # #     pickle.dump(weights, handle)
-    # curvatures = get_curvatures_as_dict(G)
+    f = "data/" + sys.argv[1] + "_edges.csv"
+    target_name = "data/ricci/" + sys.argv[1] + "_curvatures.txt"
+    G = graph_reader(f)
+    # weights = ricci_curvature_weight_generator(G, 4)
     # with open(target_name, 'wb') as handle:
-    #     pickle.dump(curvatures, handle)
-    precompute_cora()
+    #     pickle.dump(weights, handle)
+    curvatures = get_curvatures_as_dict(G)
+    with open(target_name, 'wb') as handle:
+        pickle.dump(curvatures, handle)
+    # precompute_cora()
