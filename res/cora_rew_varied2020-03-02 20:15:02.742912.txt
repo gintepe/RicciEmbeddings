@@ -1,0 +1,3 @@
+Model - GEMSECRicci
+Trials for each combination - 3
+reweightings - [1, 2, 5, 8, 16]

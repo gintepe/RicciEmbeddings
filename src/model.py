@@ -335,8 +335,8 @@ class DeepWalkWithRicci(GEMSECWithRegularization):
         if self.args.ricci_weights == "Compute":
             self.weights = ricci_curvature_weight_generator(self.graph, self.args.ricci_alpha)
         else:
-            self.weights = ricci_curvature_weight_generator_precomputed(self.graph, self.args.ricci_alpha, ricci_weights_reader(self.args.ricci_weights))
-            # self.weights = ricci_curvature_weight_generator_raw(self.graph, ricci_weights_reader(self.args.ricci_weights))
+            # self.weights = ricci_curvature_weight_generator_precomputed(self.graph, self.args.ricci_alpha, ricci_weights_reader(self.args.ricci_weights))
+            self.weights = ricci_curvature_weight_generator_raw(self.graph, ricci_weights_reader(self.args.ricci_weights))
 
     def feed_dict_generator(self, a_random_walk, step, gamma):
         """
@@ -402,8 +402,8 @@ class GEMSECWithRicci(GEMSECWithRegularization):
         if self.args.ricci_weights == "Compute":
             self.weights = ricci_curvature_weight_generator(self.graph, self.args.ricci_alpha)
         else:
-            self.weights = ricci_curvature_weight_generator_precomputed(self.graph, self.args.ricci_alpha, ricci_weights_reader(self.args.ricci_weights))
-            # self.weights = ricci_curvature_weight_generator_raw(self.graph, ricci_weights_reader(self.args.ricci_weights))
+            # self.weights = ricci_curvature_weight_generator_precomputed(self.graph, self.args.ricci_alpha, ricci_weights_reader(self.args.ricci_weights))
+            self.weights = ricci_curvature_weight_generator_raw(self.graph, ricci_weights_reader(self.args.ricci_weights))
 
 
     def feed_dict_generator(self, a_random_walk, step, gamma):

@@ -99,7 +99,6 @@ def ricci_curvature_weight_generator(graph, alpha):
     G = orc.compute_ricci_curvature()
     print("Curvature calculated")
     edges = nx.edges(graph)
-    # weights = {e: transform_ricci_curvature(G[e[0]][e[1]]["ricciCurvature"], alpha) for e in tqdm(edges)}
     weights = {e: calculate_weigth(e, G, alpha) for e in tqdm(edges)}
     weights_prime = {(e[1], e[0]): value for e, value in weights.items()}
     weights.update(weights_prime)

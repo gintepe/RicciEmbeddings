@@ -1,0 +1,3 @@
+Model - Ricci
+Trials for each combination - 5
+rewightings - [1, 2, 4, 8, 16]

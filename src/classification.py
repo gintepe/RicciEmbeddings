@@ -11,6 +11,8 @@ from model import GEMSECWithRegularization, GEMSEC, GEMSECWithRicci
 from model import DeepWalkWithRegularization, DeepWalk, DeepWalkWithRicci
 import tensorflow as tf
 
+WEIGHT_ATTRIBUTE = "weight"
+REWEIGHT_VALUE = 10
 CAT = 'category'
 NUM_LABELS = 7
 LABELS = ['Case_Based', 'Genetic_Algorithms', 'Neural_Networks', 'Probabilistic_Methods', 'Reinforcement_Learning', 'Rule_Learning', 'Theory']
@@ -36,8 +38,7 @@ def cora_loader():
         one_hots[i, :] = one_hot
     return g, one_hots
 
-def embed(args):
-    graph, labels = cora_loader()
+def embed(args, graph):
     if args.model == "GEMSECWithRegularization":
         print("GEMSECWithRegularization")
         model = GEMSECWithRegularization(args, graph)
@@ -58,23 +59,67 @@ def embed(args):
         model = DeepWalk(args, graph)
     model.train()
     embeddings = model.final_embeddings
+    return embeddings
+
+def embed_and_load_with_reweight(args, train_fraction, test_fraction, reweight_value=REWEIGHT_VALUE):
+    graph, labels = cora_loader()
+    num_vertices = graph.number_of_nodes()
+    train_idxs, test_idxs = select_indices(num_vertices, train_fraction, test_fraction)
+    reweight_by_selection(graph, train_idxs, reweight_value)
+    
+    args.ricci_weights = "Compute"
+    embeddings = embed(args, graph)
+
+    return embeddings, labels, train_idxs, test_idxs
+
+
+def embed_and_load(args, reweight=False):
+    graph, labels = cora_loader()
+    embeddings = embed(args, graph)
     return embeddings, labels
 
-def select(embeddings, labels, train_fraction):
-    pivot = round(embeddings.shape[0] * train_fraction)
-    p = np.random.permutation(embeddings.shape[0])
-    train_idxs = p[:pivot]
-    test_idxs = p[pivot:]
+def select(embeddings, labels, train_fraction, test_fraction=None):
+    train_idxs, test_idxs = select_indices(embeddings.shape[0], train_fraction, test_fraction=test_fraction)
+    return get_sets_for_classification(embeddings, labels, train_idxs, test_idxs)
+
+def get_sets_for_classification(embeddings, labels, train_idxs, test_idxs):
     train = embeddings[train_idxs]
     train_labels = labels[train_idxs]
     test = embeddings[test_idxs]
     test_labels = labels[test_idxs]
     return train, train_labels, test, test_labels
 
+def select_indices(num_vertices, train_fraction, test_fraction = None):
+    """ Assumes train_fraction + test_fraction <= 1"""
+    pivot = round(num_vertices * train_fraction)
+    p = np.random.permutation(num_vertices)
+    train_idxs = p[:pivot]
+    if not test_fraction is None:
+        pivot2 = round(num_vertices * (1 - test_fraction))
+        test_idxs = p[pivot2:]
+    else:
+        test_idxs = p[pivot:]
 
-def embed_and_select(args):
-    embeddings, labels = embed(args)
-    train, train_labels, test, test_labels = select(embeddings, labels, 0.9)
+    print(f"\n\ntrain number{len(train_idxs)}, test number {len(test_idxs)}\n\n")
+
+    return train_idxs, test_idxs
+
+
+def reweight_by_selection(G, vertices_selected, reweight_value):
+    """Assumes an unweighted graph is passed in"""
+    nx.set_edge_attributes(G, 1, WEIGHT_ATTRIBUTE)
+    for v in vertices_selected:
+        for neighbour in G[v]:
+            G[v][neighbour][WEIGHT_ATTRIBUTE] = reweight_value
+
+
+def embed_and_select(args, train_fraction, test_fraction=None, reweight = False, reweight_value=REWEIGHT_VALUE):
+    if reweight:
+        embeddings, labels, train_idxs, test_idxs = embed_and_load_with_reweight(args, train_fraction=train_fraction, test_fraction=test_fraction, reweight_value=reweight_value)
+        train, train_labels, test, test_labels = get_sets_for_classification(embeddings, labels, train_idxs, test_idxs)
+    else :
+        embeddings, labels = embed_and_load(args)
+        train, train_labels, test, test_labels = select(embeddings, labels, train_fraction=train_fraction, test_fraction=test_fraction)
     return train, train_labels, test, test_labels
     
 
@@ -139,13 +184,46 @@ def classify(xtrain, ytrain, xtest, ytest, args, iterations, learning_rate):
     
     return a
 
-def do_the_thing(args):
-    xtrain, ytrain, xtest, ytest = embed_and_select(args)
-    classify(xtrain, ytrain, xtest, ytest, args, 100, 0.01)
+def embed_and_predict(args, train_fraction, test_fraction=None, reweight=False, reweight_value=REWEIGHT_VALUE):
+    xtrain, ytrain, xtest, ytest = embed_and_select(args, train_fraction, test_fraction, reweight=reweight, reweight_value=reweight_value)
+    acc = classify(xtrain, ytrain, xtest, ytest, args, 100, 0.1)
+    return acc
+
+import matplotlib.pyplot as plt
+import time
+import datetime
 
 if __name__ == "__main__":
     args = parameter_parser()
     # graph = cora_loader()
     # embed_and_select(args)
-    do_the_thing(args)
+    # embed_and_predict(args, train_fraction=0.05, test_fraction=0.1, reweight=True, reweight_value=4)
+    train_fracs = [0.05, 0.1, 0.2]
+    rew_values = [1, 2, 5.5, 8, 16]
+    # rew_values = [1/16, 1/8, 1/4, 1/2, 1]
+    te_f = 0.1
+    smoothing_trials = 3
+    t = datetime.datetime.now()
+    with open("./res/{}{}.txt".format('cora_rew_varied', t), "w") as file:
+        file.write(f'Model - {args.model}\nTrials for each combination - {smoothing_trials}\n')
+        answers = {}
+        file.write(f'reweightings - {str(rew_values)}\n')
+        for tr_f in train_fracs:
+            vals = []
+            for rv in rew_values:
+                accs = []
+                for i in range(smoothing_trials):
+                    print(f'\n\nreweight to {rv}, trial {i}\n\n')
+                    acc = embed_and_predict(args, train_fraction=tr_f, test_fraction=te_f, reweight=True, reweight_value=rv)
+                    accs.append(acc)
+                vals.append(np.mean(np.array(accs)))
+            file.write(f'\nFor training fraction {tr_f} and test fraction {te_f}:\n')
+            file.write(str(vals))
+            answers[tr_f] = vals
+    for tr_f in train_fracs:
+        plt.plot(rew_values, answers[tr_f], label=f'training fraction = {tr_f}', linestyle='--', marker='x')
+    plt.title(f'Dependency of accuracy on reweighting value, model - {args.model}')#
+    plt.legend()
+    plt.savefig(f'res/img/cora_rewlow_dep_{args.model}{t}.png')
+    plt.show()
 
