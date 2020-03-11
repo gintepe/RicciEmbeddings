@@ -10,8 +10,8 @@ import datetime
 models_full = ['DeepWalk', 'DeepWalkWithRegularization', 'Ricci', 'GEMSECRicci', 'GEMSEC', 'GEMSECWithRegularization']
 # models_full = ['DeepWalk', 'DeepWalkWithRegularization']
 models = ['Ricci', 'GEMSECRicci']
-# learning_rates = [0.001, 0.01, 0.05, 0.1, 0.2, 0.5]
-learning_rates = [0.01, 0.1]
+learning_rates = [0.001, 0.01, 0.05, 0.1, 0.2, 0.5]
+# learning_rates = [0.01, 0.1]
 tests = 10
 iterations = 100
 
@@ -35,6 +35,7 @@ def get_time():
 def loop_classify(args,train_frac, test_frac=None):
     with open("./res/{}{}.txt".format('cora', get_time()), "w") as file:
         file.write(f"training set fraction is {train_frac}, test set fraction is {test_frac}")
+        ress = {}
         for model in models_full:
             args.model = model
             print('model - {}'.format(model))
@@ -47,18 +48,35 @@ def loop_classify(args,train_frac, test_frac=None):
                     train, train_labels, test, test_labels = select(embeddings, labels, train_frac, test_frac)
                     res[i, t] = classify(train, train_labels, test, test_labels, args, iterations, lr)
             
+            ress[model] = res
+
             exps = np.arange(tests)
             for i in range(len(learning_rates)):
                 row = res[i, :]
                 lr = learning_rates[i]
                 file.write(get_single_info(row, lr))
                 file.write(str(row))
-                plt.plot(exps, row, label='learning rate = {}'.format(lr))
+                # plt.plot(exps, row, label='learning rate = {}'.format(lr))
             
-            plt.title('Cora with {}'.format(model))
-            plt.legend()
-            plt.savefig('res/img/cora{}lr{}{}.png'.format(lr, model, get_time()))
+            # plt.title('Cora with {}'.format(model))
+            # plt.legend()
+            # plt.savefig('res/img/cora{}lr{}{}.png'.format(lr, model, get_time()))
+            # plt.show()
+
+        for i in range(len(learning_rates)):
+            lr = learning_rates[i]
+            for j in range(len(models_full)):
+                m =  models_full[j]
+                val = np.ones(tests) * (j+1)
+                row = ress[m][i, :]
+                plt.plot(val, row, 'o', alpha=0.6, label=f'model = {m}')
+            plt.title(f'Cora with learning rate {lr}')
+            # plt.legend()
+            xs = np.arange(len(models_full)) + 1
+            plt.xticks(xs, models_full, rotation = 90)
+            plt.savefig('res/img/cora_lr{}_{}.png'.format(lr, get_time()))
             plt.show()
+
 
 def loop_classify_reweightings(args, train_frac, test_frac, reweight_value):
     with open("./res/cora_rew{}{}.txt".format(reweight_value, get_time()), "w") as file:
@@ -142,8 +160,8 @@ if __name__ == "__main__":
     #     args.input = graphs[i]
     #     args.ricci_weights = curvatures[i]
     #     loop_embed(args)
-    # loop_classify(args, 0.05, 0.1)
+    loop_classify(args, 0.8)
     # loop_classify_reweightings(args, 0.05, 0.1, 0.25)
-    loop_embed(args)
+    # loop_embed(args)
 
     

@@ -148,7 +148,8 @@ def classify(xtrain, ytrain, xtest, ytest, args, iterations, learning_rate):
 
     # Minimize error using cross entropy
     # Cross entropy
-    cost_function = tf.reduce_mean(-tf.reduce_sum(y * tf.log(model), reduction_indices=[1]))
+    # cost_function = tf.reduce_mean(-tf.reduce_sum(y * tf.log(model), reduction_indices=[1]))
+    cost_function = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=model))
     # Gradient Descent
     optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost_function)
 
@@ -195,35 +196,33 @@ import datetime
 
 if __name__ == "__main__":
     args = parameter_parser()
-    # graph = cora_loader()
-    # embed_and_select(args)
-    # embed_and_predict(args, train_fraction=0.05, test_fraction=0.1, reweight=True, reweight_value=4)
-    train_fracs = [0.05, 0.1, 0.2]
-    rew_values = [1, 2, 5.5, 8, 16]
-    # rew_values = [1/16, 1/8, 1/4, 1/2, 1]
-    te_f = 0.1
-    smoothing_trials = 3
-    t = datetime.datetime.now()
-    with open("./res/{}{}.txt".format('cora_rew_varied', t), "w") as file:
-        file.write(f'Model - {args.model}\nTrials for each combination - {smoothing_trials}\n')
-        answers = {}
-        file.write(f'reweightings - {str(rew_values)}\n')
-        for tr_f in train_fracs:
-            vals = []
-            for rv in rew_values:
-                accs = []
-                for i in range(smoothing_trials):
-                    print(f'\n\nreweight to {rv}, trial {i}\n\n')
-                    acc = embed_and_predict(args, train_fraction=tr_f, test_fraction=te_f, reweight=True, reweight_value=rv)
-                    accs.append(acc)
-                vals.append(np.mean(np.array(accs)))
-            file.write(f'\nFor training fraction {tr_f} and test fraction {te_f}:\n')
-            file.write(str(vals))
-            answers[tr_f] = vals
-    for tr_f in train_fracs:
-        plt.plot(rew_values, answers[tr_f], label=f'training fraction = {tr_f}', linestyle='--', marker='x')
-    plt.title(f'Dependency of accuracy on reweighting value, model - {args.model}')#
-    plt.legend()
-    plt.savefig(f'res/img/cora_rewlow_dep_{args.model}{t}.png')
-    plt.show()
+    embed_and_predict(args, train_fraction=0.9, test_fraction=None, reweight=False, reweight_value=4)
+    # train_fracs = [0.05, 0.1, 0.2]
+    # rew_values = [1, 2, 5.5, 8, 16]
+    # # rew_values = [1/16, 1/8, 1/4, 1/2, 1]
+    # te_f = 0.1
+    # smoothing_trials = 3
+    # t = datetime.datetime.now()
+    # with open("./res/{}{}.txt".format('cora_rew_varied', t), "w") as file:
+    #     file.write(f'Model - {args.model}\nTrials for each combination - {smoothing_trials}\n')
+    #     answers = {}
+    #     file.write(f'reweightings - {str(rew_values)}\n')
+    #     for tr_f in train_fracs:
+    #         vals = []
+    #         for rv in rew_values:
+    #             accs = []
+    #             for i in range(smoothing_trials):
+    #                 print(f'\n\nreweight to {rv}, trial {i}\n\n')
+    #                 acc = embed_and_predict(args, train_fraction=tr_f, test_fraction=te_f, reweight=True, reweight_value=rv)
+    #                 accs.append(acc)
+    #             vals.append(np.mean(np.array(accs)))
+    #         file.write(f'\nFor training fraction {tr_f} and test fraction {te_f}:\n')
+    #         file.write(str(vals))
+    #         answers[tr_f] = vals
+    # for tr_f in train_fracs:
+    #     plt.plot(rew_values, answers[tr_f], label=f'training fraction = {tr_f}', linestyle='--', marker='x')
+    # plt.title(f'Dependency of accuracy on reweighting value, model - {args.model}')#
+    # plt.legend()
+    # plt.savefig(f'res/img/cora_rewlow_dep_{args.model}{t}.png')
+    # plt.show()
 

@@ -1,0 +1,73 @@
+training set fraction is 0.8, test set fraction is None
+Model: DeepWalk
+
+
+learning rate: 0.01
+average accuracy 0.7011070251464844
+standard deviation 0.0
+[0.70110703]
+
+learning rate: 0.1
+average accuracy 0.61623615026474
+standard deviation 0.0
+[0.61623615]
+Model: DeepWalkWithRegularization
+
+
+learning rate: 0.01
+average accuracy 0.6715866923332214
+standard deviation 0.0
+[0.67158669]
+
+learning rate: 0.1
+average accuracy 0.6420664191246033
+standard deviation 0.0
+[0.64206642]
+Model: Ricci
+
+
+learning rate: 0.01
+average accuracy 0.6383763551712036
+standard deviation 0.0
+[0.63837636]
+
+learning rate: 0.1
+average accuracy 0.6494464874267578
+standard deviation 0.0
+[0.64944649]
+Model: GEMSECRicci
+
+
+learning rate: 0.01
+average accuracy 0.6568265557289124
+standard deviation 0.0
+[0.65682656]
+
+learning rate: 0.1
+average accuracy 0.6845018267631531
+standard deviation 0.0
+[0.68450183]
+Model: GEMSEC
+
+
+learning rate: 0.01
+average accuracy 0.6752767562866211
+standard deviation 0.0
+[0.67527676]
+
+learning rate: 0.1
+average accuracy 0.6586715579032898
+standard deviation 0.0
+[0.65867156]
+Model: GEMSECWithRegularization
+
+
+learning rate: 0.01
+average accuracy 0.678966760635376
+standard deviation 0.0
+[0.67896676]
+
+learning rate: 0.1
+average accuracy 0.678966760635376
+standard deviation 0.0
+[0.67896676]
