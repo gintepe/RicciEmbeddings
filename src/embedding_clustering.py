@@ -5,11 +5,12 @@ from print_and_read import graph_reader
 from model import GEMSECWithRegularization, GEMSEC, GEMSECWithRicci
 from model import DeepWalkWithRegularization, DeepWalk, DeepWalkWithRicci
 
-def create_and_run_model(args):
+def create_and_run_model(args, graph = None):
     """
     Function to read the graph, create an embedding and train it.
     """
-    graph = graph_reader(args.input)
+    if graph is None:
+        graph = graph_reader(args.input)
     if args.model == "GEMSECWithRegularization":
         print("GEMSECWithRegularization")
         model = GEMSECWithRegularization(args, graph)

@@ -138,6 +138,8 @@ def generate_gnp_graph(n, p):
     while not connected:
         g = nx.fast_gnp_random_graph(n, p)
         connected = nx.is_connected(g)
+        if not connected:
+            print('disconnected graph, trying again')
     return g
 
 def generate_lfr_graph(n):
@@ -152,7 +154,7 @@ def generate_lfr_graph(n):
         print("generating LFR graph failed, trying again")
         g = None
         try:
-            g = LFR_benchmark_graph(n=num_nodes, tau1=tau1, tau2=tau2, mu=mu, average_degree=avg_degree, min_degree=None, max_degree=max_degree, min_community=None, max_community=None, tol=1e-07, max_iters=200, seed=None)
+            g = nx.LFR_benchmark_graph(n=n, tau1=tau1, tau2=tau2, mu=mu, average_degree=avg_degree, min_degree=None, max_degree=max_degree, min_community=None, max_community=None, tol=1e-07, max_iters=200, seed=None)
         except:
             print("LFR generation failed")
         if not g is None:
@@ -167,25 +169,31 @@ def runtime_test(node_numbers, graph_type='gnp'):
     p = 0.1
     times = []
     with open(f_name, "w") as file:
-        file.write(f"Graphs - {graph_type}, node values:\n")
+        file.write(f"Graphs - {graph_type}, p value {p}, node values:\n")
         file.write(str(node_numbers))
         
         for n in node_numbers:
             # generate graph
+            print('generating graph')
             if graph_type == 'lfr':
                 graph = generate_lfr_graph(n)
             else:
                 graph = generate_gnp_graph(n, p)
+
+            if n < 20:
+                args.cluster_number = n
             # compute edge density and number of edges
             # compute ricci values (and save along with graph?)
             # t_start = time.time()
             # orc = OllivierRicci(graph, alpha=0.5)
             # G = orc.compute_ricci_curvature()
             # t_ricci_end = time.time()
+            print(f'number of nodes - {n}, number of edges - {len(graph.edges)}')
 
             # compute embeddings for each model, tracking runtimes
+            print('running embedding')
             t_start = time.time()
-            mod = create_and_run_model(args)
+            mod = create_and_run_model(args, graph=graph)
             t_ricci_end = time.time()
             times.append(t_ricci_end - t_start)
         
@@ -205,6 +213,6 @@ if __name__ == "__main__":
     # loop_classify(args, 0.8)
     # loop_classify_reweightings(args, 0.1, 0.2, 8)
     # loop_embed(args)
-
-    runtime_test([10, 20, 30])
+    pows_of_2 = [16, 32, 64, 128, 512, 1024, 2048]
+    runtime_test(pows_of_2)
     
