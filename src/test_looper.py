@@ -4,6 +4,7 @@ from embedding_clustering import create_and_run_model
 from classification import classify, embed_and_load, embed_and_select, select
 import sys
 import matplotlib.pyplot as plt
+import networkx as nx
 import time
 import datetime
 
@@ -31,7 +32,6 @@ def get_single_info(row, lr):
 def get_time():
     return datetime.datetime.now()
 
-# just re-classify??
 def loop_classify(args,train_frac, test_frac=None):
     with open("./res/{}{}.txt".format('cora', get_time()), "w") as file:
         file.write(f"training set fraction is {train_frac}, test set fraction is {test_frac}")
@@ -56,12 +56,6 @@ def loop_classify(args,train_frac, test_frac=None):
                 lr = learning_rates[i]
                 file.write(get_single_info(row, lr))
                 file.write(str(row))
-                # plt.plot(exps, row, label='learning rate = {}'.format(lr))
-            
-            # plt.title('Cora with {}'.format(model))
-            # plt.legend()
-            # plt.savefig('res/img/cora{}lr{}{}.png'.format(lr, model, get_time()))
-            # plt.show()
 
         for i in range(len(learning_rates)):
             lr = learning_rates[i]
@@ -81,7 +75,9 @@ def loop_classify(args,train_frac, test_frac=None):
 def loop_classify_reweightings(args, train_frac, test_frac, reweight_value):
     with open("./res/cora_rew{}{}.txt".format(reweight_value, get_time()), "w") as file:
         file.write(f"training set fraction is {train_frac}, test set fraction is {test_frac}, reweight value is {reweight_value}")
-        for model in models:
+        
+        ress = {}
+        for model in models_full:
             args.model = model
             print('model - {}'.format(model))
             file.write('\nModel: {}\n'.format(model))
@@ -92,45 +88,30 @@ def loop_classify_reweightings(args, train_frac, test_frac, reweight_value):
                     lr = learning_rates[i]
                     res[i, t] = classify(train, train_labels, test, test_labels, args, iterations, lr)
             
-            exps = np.arange(tests)
+            
+            ress[model] = res
+
+
             for i in range(len(learning_rates)):
                 row = res[i, :]
                 lr = learning_rates[i]
                 file.write(get_single_info(row, lr))
                 file.write(str(row))
-                plt.plot(exps, row, label='learning rate = {}'.format(lr))
-            
-            plt.title('Cora with {}'.format(model))
-            plt.legend()
+
+        for i in range(len(learning_rates)):
+            lr = learning_rates[i]
+            for j in range(len(models_full)):
+                m =  models_full[j]
+                val = np.ones(tests) * (j+1)
+                row = ress[m][i, :]
+                plt.plot(val, row, 'o', alpha=0.6, label=f'model = {m}')
+            plt.title(f'Cora with learning rate {lr}')
+            # plt.legend()
+            xs = np.arange(len(models_full)) + 1
+            plt.xticks(xs, models_full, rotation = 90)
             plt.savefig('res/img/cora_rew{}lr{}trf{}{}.png'.format(lr, model, train_frac, get_time()))
             plt.show()
 
-# def loop_classify_reweightings_fixed_lr(args, train_frac, test_frac, reweight_value, lr):
-#     with open("./res/cora_rew{}{}.txt".format(reweight_value, time.time()), "w") as file:
-#         file.write(f"training set fraction is {train_frac}, test set fraction is {test_frac}")
-#         for model in models:
-#             args.model = model
-#             print('model - {}'.format(model))
-#             file.write('\nModel: {}\n'.format(model))
-#             res = np.zeros((len(learning_rates), tests))
-#             for t in range(tests):
-#                 for i in range(len(learning_rates)):
-#                     train, train_labels, test, test_labels = embed_and_select(args, train_frac, test_frac, reweight=True, reweight_value=reweight_value)
-#                     lr = learning_rates[i]
-#                     res[i, t] = classify(train, train_labels, test, test_labels, args, iterations, lr)
-            
-#             exps = np.arange(tests)
-#             for i in range(len(learning_rates)):
-#                 row = res[i, :]
-#                 lr = learning_rates[i]
-#                 file.write(get_single_info(row, lr))
-#                 file.write(str(row))
-#                 plt.plot(exps, row, label='learning rate = {}'.format(lr))
-            
-#             plt.title('Cora with {}'.format(model))
-#             plt.legend()
-#             plt.savefig('res/img/cora_rew{}lr{}trf{}.png'.format(lr, model, train_frac))
-#             plt.show()
 
 def loop_embed(args):
     filename = args.input.split('/')[-1][:-4]
@@ -152,6 +133,66 @@ def loop_embed(args):
             file.write('\nTimes:\n')
             file.write(str(times))
 
+def generate_gnp_graph(n, p):
+    connected = False
+    while not connected:
+        g = nx.fast_gnp_random_graph(n, p)
+        connected = nx.is_connected(g)
+    return g
+
+def generate_lfr_graph(n):
+    p = 0.1
+    connected = False
+    tau1 = 3
+    tau2 =2
+    mu = 0.3
+    avg_degree = p * (n - 1) / 2
+    max_degree = 2 * avg_degree
+    while not connected:
+        print("generating LFR graph failed, trying again")
+        g = None
+        try:
+            g = LFR_benchmark_graph(n=num_nodes, tau1=tau1, tau2=tau2, mu=mu, average_degree=avg_degree, min_degree=None, max_degree=max_degree, min_community=None, max_community=None, tol=1e-07, max_iters=200, seed=None)
+        except:
+            print("LFR generation failed")
+        if not g is None:
+            connected = nx.is_connected(g)
+    return g
+
+def runtime_test(node_numbers, graph_type='gnp'):
+
+    f_name = f"./res/runtimes/{graph_type}{get_time()}.txt"
+    args.model = 'Ricci'
+    args.ricci_weights = 'Compute'
+    p = 0.1
+    times = []
+    with open(f_name, "w") as file:
+        file.write(f"Graphs - {graph_type}, node values:\n")
+        file.write(str(node_numbers))
+        
+        for n in node_numbers:
+            # generate graph
+            if graph_type == 'lfr':
+                graph = generate_lfr_graph(n)
+            else:
+                graph = generate_gnp_graph(n, p)
+            # compute edge density and number of edges
+            # compute ricci values (and save along with graph?)
+            # t_start = time.time()
+            # orc = OllivierRicci(graph, alpha=0.5)
+            # G = orc.compute_ricci_curvature()
+            # t_ricci_end = time.time()
+
+            # compute embeddings for each model, tracking runtimes
+            t_start = time.time()
+            mod = create_and_run_model(args)
+            t_ricci_end = time.time()
+            times.append(t_ricci_end - t_start)
+        
+        file.write('\nObserved runtimes:\n')
+        file.write(str(times))
+
+
 if __name__ == "__main__":
     args = parameter_parser()
     
@@ -160,8 +201,10 @@ if __name__ == "__main__":
     #     args.input = graphs[i]
     #     args.ricci_weights = curvatures[i]
     #     loop_embed(args)
-    loop_classify(args, 0.8)
-    # loop_classify_reweightings(args, 0.05, 0.1, 0.25)
+
+    # loop_classify(args, 0.8)
+    # loop_classify_reweightings(args, 0.1, 0.2, 8)
     # loop_embed(args)
 
+    runtime_test([10, 20, 30])
     

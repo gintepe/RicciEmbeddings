@@ -9,8 +9,8 @@ import time
 
 def get_curvatures_as_dict(graph):
     graph.remove_edges_from(nx.selfloop_edges(graph))
-    # orc = OllivierRicci(graph, alpha=0.5, verbose="INFO")
-    orc = OllivierRicci(graph, alpha=0.5, verbose="INFO", method="ATD")
+    orc = OllivierRicci(graph, alpha=0.5, verbose="INFO")
+    # orc = OllivierRicci(graph, alpha=0.5, verbose="INFO", method="ATD")
     s = time.time()
     G = orc.compute_ricci_curvature()
     print ('time for curvature computation: {}'.format(time.time() - s))

@@ -24,7 +24,7 @@ def do_things(args):
     print('Modularity:')
     print(round(modularity, 3))
     # many many things seem to be getting assigned to the same cluster
-    print(assignments)
+    # print(assignments)
 
 def get_decomposition(matrix, dims):
     nmf = NMF(dims)
