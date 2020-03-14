@@ -193,7 +193,7 @@ def neural_modularity_calculator(graph, embedding, means):
 
 def classical_modularity_calculator(graph, embedding, args):
     """
-    Function to calculate the DeepWalk cluster centers and assignments.
+    Function to calculate the cluster centers and assignments for non-GEMSEC algorithms.
     """
     kmeans = KMeans(n_clusters=args.cluster_number, random_state=0, n_init=1).fit(embedding)
     assignments = {i: int(kmeans.labels_[i]) for i in range(embedding.shape[0])}
