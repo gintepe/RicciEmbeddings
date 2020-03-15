@@ -25,13 +25,27 @@ def compute_ricci_curvature(graph):
     G = orc.compute_ricci_curvature()
     return G
 
-def ricci_curvature_matrix_generator(graph, alpha, curvatures = None):
-    if curvatures is None:
-        G = compute_ricci_curvature(graph)
-    edges = nx.edges(graph)
+def ricci_curvature_matrix_generator(graph, alpha, curvatures = None, produce_adjacency = False):
+    
     xs = []
     ys = []
     data = []
+    edges = nx.edges(graph)
+
+    if produce_adjacency:
+        for e in edges:
+            if not e[0] == e[1]:
+                xs.append(e[0])
+                ys.append(e[1])
+                data.append(1.0)
+            xs.append(e[1])
+            ys.append(e[0])
+            data.append(1.0)
+        return coo_matrix((np.array(data), (np.array(xs), np.array(ys))))
+    
+    if curvatures is None:
+        G = compute_ricci_curvature(graph)
+ 
     for e in edges:
         if curvatures is not None:
             ricci_weight = calculate_weigth_from_precomputed(e, curvatures, TRANSFORMATION_ALPHA)
@@ -42,6 +56,7 @@ def ricci_curvature_matrix_generator(graph, alpha, curvatures = None):
         data.append(ricci_weight)
         xs.append(e[1])
         ys.append(e[0])
+        # data.append(1.0)
         data.append(ricci_weight)
     ricci_matrix = coo_matrix((np.array(data), (np.array(xs), np.array(ys))))
     return ricci_matrix
