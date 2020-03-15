@@ -161,15 +161,15 @@ def generate_lfr_graph(n):
             connected = nx.is_connected(g)
     return g
 
-def runtime_test(node_numbers, graph_type='gnp'):
+def runtime_test(node_numbers, model = 'Ricci', graph_type='gnp'):
 
     f_name = f"./res/runtimes/{graph_type}{get_time()}.txt"
-    args.model = 'Ricci'
+    args.model = model
     args.ricci_weights = 'Compute'
     p = 0.1
     times = []
     with open(f_name, "w") as file:
-        file.write(f"Graphs - {graph_type}, p value {p}, node values:\n")
+        file.write(f"Model - {model}, graphs - {graph_type}, p value {p}, node values:\n")
         file.write(str(node_numbers))
         
         for n in node_numbers:
@@ -213,7 +213,6 @@ if __name__ == "__main__":
     # loop_classify(args, 0.8)
     # loop_classify_reweightings(args, 0.1, 0.2, 8)
     # loop_embed(args)
-    pows_of_2 = [16, 32, 64, 128, 512, 1024, 2048]
-    runtime_test(pows_of_2)
-
+    pows_of_2 = [16, 32, 64, 128, 512, 1024]
+    runtime_test(pows_of_2, model='DeepWalk')
     

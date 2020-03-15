@@ -1,2 +1,0 @@
-Graphs - gnp, node values:
-[10, 20, 30]
