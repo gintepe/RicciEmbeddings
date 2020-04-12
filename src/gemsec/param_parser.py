@@ -134,24 +134,4 @@ def parameter_parser():
                         default=10**-8,
 	                help="Uniform noise max and min on the feature vector distance.")
 
-    # parser.add_argument("--ricci-weights",
-    #                     nargs="?",
-    #                     default="Compute",
-	#                 help="Path to read the ricci curvature weights from")
-
-    # parser.add_argument("--ricci-alpha",
-    #                     type=float,
-    #                     default=4.0,
-	#                 help="Value used in the Ricci curvature transformation. Default is 4.0.")
-
-    # parser.add_argument("--classes",
-    #                     nargs="?",
-    #                     default="cora",
-	#                 help="Path for the classification labels.")
-
-    # parser.add_argument("--raw-ricci",
-    #                     type=bool,
-    #                     default=False,
-	#                 help="Use raw values for Ricci curvature. If set to false, a sigmoidal transformation is applied.")
-    
     return parser.parse_args()
