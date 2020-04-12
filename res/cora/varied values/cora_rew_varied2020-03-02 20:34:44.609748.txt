@@ -1,0 +1,10 @@
+Model - GEMSECRicci
+Trials for each combination - 3
+reweightings - [1, 2, 5.5, 8, 16]
+
+For training fraction 0.05 and test fraction 0.1:
+[0.74046737, 0.73800737, 0.73677737, 0.6801968, 0.7244773]
+For training fraction 0.1 and test fraction 0.1:
+[0.7170971, 0.73431736, 0.7257073, 0.7207872, 0.75276756]
+For training fraction 0.2 and test fraction 0.1:
+[0.7453875, 0.7441575, 0.73677737, 0.7503075, 0.7466175]

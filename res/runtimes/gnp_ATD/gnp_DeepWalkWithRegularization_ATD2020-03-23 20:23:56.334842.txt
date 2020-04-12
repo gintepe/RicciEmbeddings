@@ -1,0 +1,6 @@
+Model - DeepWalkWithRegularization, graphs - gnp, p value 0.1, node values:
+[16, 32, 64, 128, 512, 1024]
+Edge counts:
+[17, 59, 199, 783, 13026, 52321]
+Observed embedding (no Ricci curvature computation) runtimes:
+[1.0625953674316406, 1.077491044998169, 1.4002676010131836, 1.9972708225250244, 6.31009578704834, 13.76923942565918]

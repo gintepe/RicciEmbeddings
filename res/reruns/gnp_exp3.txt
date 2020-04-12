@@ -1,0 +1,13 @@
+
+Experiments run 30 times
+For original graphs under MDS, the mean is 0.29823065129392246 and std deviation is 0.07690594057647919, std error is 0.014041039486629837
+
+For graphs after Ricci flow under MDS, the mean is 0.34970433316556204 and std deviation is 0.0917200037520262, std error is 0.016745705009814406
+
+For differences using MDS, the mean is 0.051473681871639636 and std deviation is 0.10050272581259985, std error is 0.01834920333943922
+
+For original graphs under spectral embedding, the mean is 0.27947581726106446 and std deviation is 0.06093334245886441, std error is 0.011124855389635781
+
+For graphs after Ricci flow under spectral embedding, the mean is 0.3270745627219937 and std deviation is 0.06259890368443871, std error is 0.011428943874353446
+
+For differences using spectral embedding, the mean is 0.04759874546092926 and std deviation is 0.0405817634502399, std error is 0.007409182421678357

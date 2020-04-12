@@ -1,0 +1,6 @@
+Model - Ricci, graphs - lfr, p value 0.1, node values:
+[16, 32, 64, 128, 512, 1024]
+Edge counts:
+[45, 90, 184, 399, 1423, 3029]
+Observed embedding (no Ricci curvature computation) runtimes:
+[1.3651039600372314, 1.137925624847412, 1.5692319869995117, 2.6346662044525146, 6.791832208633423, 13.448954343795776]

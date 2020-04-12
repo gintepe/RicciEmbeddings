@@ -1,0 +1,7 @@
+Model - Ricci
+
+rewightings - [1, 0.5, 0.25, 0.125, 0.0625]
+For training fraction 0.05 and test fraction 0.1:
+[0.69741696, 0.6900369, 0.6900369, 0.61623615, 0.72324723]For training fraction 0.1 and test fraction 0.1:
+[0.7084871, 0.73431736, 0.63468635, 0.71586716, 0.7490775]For training fraction 0.2 and test fraction 0.1:
+[0.74538743, 0.72324723, 0.73800737, 0.74538743, 0.76383764]

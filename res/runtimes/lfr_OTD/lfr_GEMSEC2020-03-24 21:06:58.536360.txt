@@ -1,0 +1,6 @@
+Model - GEMSEC, graphs - lfr, p value 0.1, node values:
+[16, 32, 64, 128, 512, 1024]
+Edge counts:
+[45, 90, 184, 399, 1423, 3029]
+Observed embedding (no Ricci curvature computation) runtimes:
+[0.972937822341919, 1.0924360752105713, 1.4624760150909424, 2.3013241291046143, 8.064040184020996, 14.753170251846313]

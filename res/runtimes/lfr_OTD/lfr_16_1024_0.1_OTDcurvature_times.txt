@@ -1,0 +1,4 @@
+Graphs generated with nodes [16, 32, 64, 128, 512, 1024], of type lfr
+Times taken for curvature calculations:
+[0.24967479705810547, 0.354170560836792, 0.48391199111938477, 0.834913969039917, 2.8199877738952637, 7.898818254470825]
+Filename prefixes:['./data/for_runtimes/160.1lfr', './data/for_runtimes/320.1lfr', './data/for_runtimes/640.1lfr', './data/for_runtimes/1280.1lfr', './data/for_runtimes/5120.1lfr', './data/for_runtimes/10240.1lfr']

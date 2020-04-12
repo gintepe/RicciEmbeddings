@@ -1,0 +1,10 @@
+Model - Ricci
+Trials for each combination - 5
+reweightings - [1, 2, 5, 8, 16]
+
+For training fraction 0.05 and test fraction 0.1:
+[0.696679, 0.701107, 0.7047971, 0.73210335, 0.7195572]
+For training fraction 0.1 and test fraction 0.1:
+[0.71512914, 0.71291506, 0.704059, 0.7306273, 0.702583]
+For training fraction 0.2 and test fraction 0.1:
+[0.7402214, 0.73726934, 0.704059, 0.72693723, 0.702583]

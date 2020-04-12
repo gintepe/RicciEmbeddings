@@ -1,0 +1,6 @@
+Model - Ricci, graphs - gnp, p value 0.1, node values:
+[16, 32, 64, 128, 512, 1024]
+Edge counts:
+[16, 45, 206, 756, 13137, 52182]
+Observed embedding (no Ricci curvature computation) runtimes:
+[1.2120604515075684, 1.1902940273284912, 1.6274044513702393, 2.1378493309020996, 6.15213680267334, 13.439667463302612]

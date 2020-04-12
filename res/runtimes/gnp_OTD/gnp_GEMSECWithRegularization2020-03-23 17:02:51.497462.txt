@@ -1,0 +1,6 @@
+Model - GEMSECWithRegularization, graphs - gnp, p value 0.1, node values:
+[16, 32, 64, 128, 512, 1024]
+Edge counts:
+[16, 45, 206, 756, 13137, 52182]
+Observed embedding (no Ricci curvature computation) runtimes:
+[1.1814100742340088, 1.3751702308654785, 1.729759693145752, 2.741711378097534, 8.433324575424194, 18.467752695083618]

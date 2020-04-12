@@ -1,0 +1,6 @@
+Model - DeepWalk, graphs - lfr, p value 0.1, node values:
+[16, 32, 64, 128, 512, 1024]
+Edge counts:
+[45, 90, 184, 399, 1423, 3029]
+Observed embedding (no Ricci curvature computation) runtimes:
+[1.0314249992370605, 1.1577985286712646, 1.1821644306182861, 1.6073381900787354, 5.294744491577148, 11.333874702453613]
