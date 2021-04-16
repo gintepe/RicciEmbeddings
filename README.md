@@ -1,5 +1,8 @@
 # Ricci Curvature in Network Emedding and Clustering
 ## BSc Computer Science and Mathematics Year 4 Project
+
+Final [report](https://project-archive.inf.ed.ac.uk/ug4/20201839/ug4_proj.pdf) published by the University of Edinburgh as part of the outstanding projects archive.
+
 ### Source code and results
 
 The code is based on the source code for GEMSEC, (found at [1](https://github.com/benedekrozemberczki/GEMSEC)). The files from here have been seperated out into the *src/gemsec* forlder. The other files in the *src* folder represent the work which was added over the course of the project.
